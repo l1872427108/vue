@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>key原理 | Vue</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/vue/assets/css/0.styles.8bbd28e5.css" as="style"><link rel="preload" href="/vue/assets/js/app.8ffc3c4c.js" as="script"><link rel="preload" href="/vue/assets/js/2.ccd11742.js" as="script"><link rel="preload" href="/vue/assets/js/16.55e8cf9b.js" as="script"><link rel="prefetch" href="/vue/assets/js/10.45d0a8ce.js"><link rel="prefetch" href="/vue/assets/js/11.a29829b1.js"><link rel="prefetch" href="/vue/assets/js/12.d8c0c1e1.js"><link rel="prefetch" href="/vue/assets/js/13.257b760b.js"><link rel="prefetch" href="/vue/assets/js/14.c5679eca.js"><link rel="prefetch" href="/vue/assets/js/15.d89c3c02.js"><link rel="prefetch" href="/vue/assets/js/17.b3b57293.js"><link rel="prefetch" href="/vue/assets/js/18.aa9e84d3.js"><link rel="prefetch" href="/vue/assets/js/19.a27b1be9.js"><link rel="prefetch" href="/vue/assets/js/20.e58a46b3.js"><link rel="prefetch" href="/vue/assets/js/21.394c2197.js"><link rel="prefetch" href="/vue/assets/js/22.c3d8b71d.js"><link rel="prefetch" href="/vue/assets/js/23.15a8ea64.js"><link rel="prefetch" href="/vue/assets/js/24.33b5c12d.js"><link rel="prefetch" href="/vue/assets/js/25.5b571075.js"><link rel="prefetch" href="/vue/assets/js/26.22279201.js"><link rel="prefetch" href="/vue/assets/js/27.8a496856.js"><link rel="prefetch" href="/vue/assets/js/28.db5d99cf.js"><link rel="prefetch" href="/vue/assets/js/29.f5320d60.js"><link rel="prefetch" href="/vue/assets/js/3.2588b13f.js"><link rel="prefetch" href="/vue/assets/js/30.11f4143c.js"><link rel="prefetch" href="/vue/assets/js/31.3b070314.js"><link rel="prefetch" href="/vue/assets/js/32.692174a5.js"><link rel="prefetch" href="/vue/assets/js/4.b7d0708f.js"><link rel="prefetch" href="/vue/assets/js/5.9e2f4ca7.js"><link rel="prefetch" href="/vue/assets/js/6.c7b54f12.js"><link rel="prefetch" href="/vue/assets/js/7.8a5eaf01.js"><link rel="prefetch" href="/vue/assets/js/8.a1297324.js"><link rel="prefetch" href="/vue/assets/js/9.36478d5d.js">
+    <link rel="stylesheet" href="/vue/assets/css/0.styles.8bbd28e5.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/vue/" class="home-link router-link-active"><!----> <span class="site-name">Vue</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/vue/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="https://github.com/l1872427108/uui" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://www.npmjs.com/package/uu-uui" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Npm
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/vue/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="https://github.com/l1872427108/uui" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://www.npmjs.com/package/uu-uui" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Npm
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/vue/componentDocs/对Vue的理解.html" class="sidebar-link">对Vue的理解</a></li><li><a href="/vue/componentDocs/MVC和MVVM.html" class="sidebar-link">MVC和MVVM</a></li><li><a href="/vue/componentDocs/v-html.html" class="sidebar-link">v-html</a></li><li><a href="/vue/componentDocs/slot.html" class="sidebar-link">slot</a></li><li><a href="/vue/componentDocs/v-model.html" class="sidebar-link">v-model</a></li><li><a href="/vue/componentDocs/$nextTick.html" class="sidebar-link">$nextTick</a></li><li><a href="/vue/componentDocs/data属性为什么是函数.html" class="sidebar-link">data 属性为什么是函数</a></li><li><a href="/vue/componentDocs/Vue中如何给对象添加新属性触发视图更新.html" class="sidebar-link">Vue中给对象添加新属性触发视图更新。</a></li><li><a href="/vue/componentDocs/Vue重新渲染组件.html" class="sidebar-link">Vue重新渲染组件</a></li><li><a href="/vue/componentDocs/组件间通信.html" class="sidebar-link">组件间通信</a></li><li><a href="/vue/componentDocs/vdom.html" class="sidebar-link">虚拟 DOM</a></li><li><a href="/vue/componentDocs/key原理.html" class="active sidebar-link">key原理</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/vue/componentDocs/响应式原理.html" class="sidebar-link">响应式原理</a></li><li><a href="/vue/componentDocs/$delete.html" class="sidebar-link">$delete</a></li><li><a href="/vue/componentDocs/$set.html" class="sidebar-link">$set</a></li><li><a href="/vue/componentDocs/模版编译.html" class="sidebar-link">模版编译</a></li><li><a href="/vue/componentDocs/模版编译之生成AST.html" class="sidebar-link">模版编译之生成AST</a></li><li><a href="/vue/componentDocs/模版编译之优化阶段.html" class="sidebar-link">模版编译之优化阶段</a></li><li><a href="/vue/componentDocs/模版编译之生成render函数.html" class="sidebar-link">模版编译之生成render函数</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="key原理"><a href="#key原理" class="header-anchor">#</a> key原理</h1> <h3 id="应用场景"><a href="#应用场景" class="header-anchor">#</a> 应用场景</h3> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token operator">&lt;</span>ul<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span>li v<span class="token operator">-</span><span class="token keyword">for</span><span class="token operator">=</span><span class="token string">&quot;item in items&quot;</span> key<span class="token operator">=</span><span class="token string">&quot;item.id&quot;</span><span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">&gt;</span>
+
+</code></pre></div><div class="language-javascript extra-class"><pre class="language-javascript"><code>
+<span class="token operator">&lt;</span>Item key<span class="token operator">=</span><span class="token string">&quot;+new Date()&quot;</span> <span class="token operator">/</span><span class="token operator">&gt;</span>
+
+</code></pre></div><p>第一个就是使用 v-for 时，需要给单元加上 key。</p> <p>第二个就是用 +new Date() 生成的时间戳作为 key，可以强制触发重新渲染。</p> <p>key 是每一个 vnode 的唯一 id，是 diff 一种优化策略，可以根据 key，更加精准，快速的找到对应的 vnode 节点。</p> <h3 id="如果选择是否使用-key"><a href="#如果选择是否使用-key" class="header-anchor">#</a> 如果选择是否使用 key</h3> <p>一般是尽量加上为 for 加上 key 属性，除非遍历输出 DOM 非常的简单，或者是刻意依赖默认行为来提升性能。</p> <h3 id="结合-vdom-来分析有-key-和-没有key-的区别"><a href="#结合-vdom-来分析有-key-和-没有key-的区别" class="header-anchor">#</a> 结合 vdom 来分析有 key 和 没有key 的区别</h3> <p>如果判定两个节点是同一个节点:</p> <ul><li>key相同. 默认没有的情况下，都是为 undefined, 是相同的。</li> <li>tag 标签是否相同。</li> <li>isComment 是否相同。</li> <li>data 属性是否都是存在的。</li> <li>如果是 input， type 必须相同。</li></ul> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">sameVnode</span> <span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    a<span class="token punctuation">.</span>key <span class="token operator">===</span> b<span class="token punctuation">.</span>key <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>
+      <span class="token punctuation">(</span>
+        a<span class="token punctuation">.</span>tag <span class="token operator">===</span> b<span class="token punctuation">.</span>tag <span class="token operator">&amp;&amp;</span>
+        a<span class="token punctuation">.</span>isComment <span class="token operator">===</span> b<span class="token punctuation">.</span>isComment <span class="token operator">&amp;&amp;</span>
+        <span class="token function">isDef</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>data<span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token function">isDef</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span>data<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+        <span class="token function">sameInputType</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span>
+      <span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">(</span>
+        <span class="token function">isTrue</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>isAsyncPlaceholder<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+        a<span class="token punctuation">.</span>asyncFactory <span class="token operator">===</span> b<span class="token punctuation">.</span>asyncFactory <span class="token operator">&amp;&amp;</span>
+        <span class="token function">isUndef</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span>asyncFactory<span class="token punctuation">.</span>error<span class="token punctuation">)</span>
+      <span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div><ol><li>没有 key 的情况
+newCh 数组有六个字元素 d、e、b、f、d、a
+oldCh 数组有五个字元素 a、b、c、d、e</li></ol> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">/*
+    判断一：查看 oldStartVnode 是否存在。
+    判断二：查看 oldEndVnode 是否存在。
+    判断三：比较新前与旧前。
+    判断四：比较新后与旧后。
+    判断五：比较新后与旧前。
+    判断六：比较新前与旧后。
+    判断七：比较 key。
+    
+    let oldStartIdx = 0
+    let oldEndIdx = oldCh.length - 1
+    let oldStartVnode = oldCh[0]
+    let oldEndVnode = oldCh[oldEndIdx]
+
+
+    let newStartIdx = 0
+    let newEndIdx = newCh.length - 1
+    let newStartVnode = newCh[0]
+    let newEndVnode = newCh[newEndIdx]
+
+    进入循环中
+    while (oldStartIdx &lt;= oldEndIdx &amp;&amp; newStartIdx &lt;= newEndIdx) {}
+
+    
+    第一次进入 while 循环。
+    进入判断五，a 和 a 相同的，就调用 patchVnode 复用 dom 元素并递归比较子元素， 然后移动元素将 a 移动到 e 后面。oldCh 起始指针后移一位。newCh的起始指针前移一位. 此时的 也没 dom 元素将为 b、c、d、e、a.  newStartIdx指向oldStartIdx指向d。 oldStartIdx指向 b.
+
+    第二次进入 while 循环。
+    进入判断七， 并且也是没有 key 的，然后创建元素，将 d 插入到 b 的前面。 此时 dom 变为 d、b、c、d、e、a.  将 newStartIdx 后移动一位。
+    
+    第三次进入 while 循环。第六种情况, e元素会把插入到b元素之前, dom变为 debcda.
+
+    第四次进入 while 循环. 第三种情况, 直接复用b元素。此时页面中dom依然为debcda.
+
+    第五次进入 while 循环, 第四种情况 , 直接复用d元素, dom依然为debcda.
+
+    第六次while循环, 第七种情况, 创建新的元素f并插入到c前面, dom变为debfcda.
+
+    newStartIdx会大于newEndIdx, 终止循环, 在循环之后还有删除无用的旧结点的操作.
+*/</span>
+
+</code></pre></div><ol start="2"><li>有 key 的情况
+newCh: p[key=3]、span[key=2]、p、div[key=1]、a、span
+oldCh: a、div[key=1]、footer[key=3]、span[key=2]、p，newCh</li></ol> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">/*
+    第一次while循环, 第七种情况， 此时会生成oldKeyToIdx
+    oldKeyToIdx = {
+        '1': 1,
+        '2': 3,
+        '3': 2
+    }
+    newStartVnode元素p[key=3]根据key值比较, elmToMove会指向footer[key=3]
+    标签名不一样，sameVNode判断会返回false。 直接插入到a前面， 
+    dom变为p[key=3]、a、div[key=1]、footer[key=3]、span[key=2]、p
+
+
+
+    第二次进入 while 循环, 走到第七种情况
+    newStartVnode元素span[key=2]根据key值比较, elmToMove会指向span[k=2]，两元素可以复用
+    span[k=2]会被插入到a前面
+    dom变为p[key=1]、span[key=2]、a、div[key=1]、footer[k=3]、p
+    同时oldCh变为[a, div[key=1], footer[k=3], undefined, p]
+
+    第三次while循环, 第六种情况, p元素会插入到a元素
+    dom顺序变为p[key=1]、span[key=2]、p、a、div[key=1]、footer[k=3]
+
+
+    第四次while循环 oldEndVnode返回undefined所以会走到第二种情况.
+
+
+    第五次while循环, 第七种情况
+    newStartVnode根据key=1找到可以复用的div[key=1], 该元素会插入到a元素之前
+    dom变为p[key=1]、span[key=2]、p、div[key=1]、a、footer[k=3]
+    oldCh变为[a, undefined, footer[k=3], undefined, p]
+
+
+    第六次while循环, 第三种情况.
+
+    第七次while循环, oldStartVnode返回undefined所以会走到第一种情况.
+
+    第八次while循环，创建span，并插入到footer[k=3]之前。
+    dom变为p[key=1]、span[key=2]、p、div[key=1]、a、span、footer[k=3]
+
+    终止循环 删除多余的footer[k=3]
+*/</span>
+
+</code></pre></div><p>设置key能够大大减少对页面的DOM操作，提高了diff效率, 可以减少创建 DOM，而是更多的移动。</p> <p>默认采用了 就地复用策略。Vue 将不会移动 DOM 元素来匹配数据项的顺序，而是简单的复用每个元素。</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/vue/componentDocs/vdom.html" class="prev">
+        虚拟 DOM
+      </a></span> <span class="next"><a href="/vue/componentDocs/响应式原理.html">
+        响应式原理
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/vue/assets/js/app.8ffc3c4c.js" defer></script><script src="/vue/assets/js/2.ccd11742.js" defer></script><script src="/vue/assets/js/16.55e8cf9b.js" defer></script>
+  </body>
+</html>
